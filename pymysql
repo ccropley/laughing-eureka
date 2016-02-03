@@ -1,0 +1,43 @@
+#! python 3
+# connect to test MySQL DB, run a query and print data
+# output to screen or CSV
+# need to package and portable format for general use
+
+# import libs
+from __future__ import print_function
+
+import pymysql
+import sys
+import csv
+
+# connect to DB
+conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='wcmr')
+
+cur = conn.cursor()
+
+# cur.execute("SELECT Host,User FROM user")
+
+# Query a table in DB
+cur.execute("SELECT * FROM master_inventory")
+
+# for row in cur:
+print(cur.description)
+
+print(cur) # use this option to print to screen
+print(cur.execute)
+
+# result = cur.fetchall()
+# print(result)
+
+#write output to CSV file
+f = csv.writer(open('file.csv', 'w'))
+for row in cur:
+#    f.writerow([str(row)])
+
+    f.writerow(row)
+# Clean up after yourself	
+# csv_file.close()
+
+
+cur.close()
+conn.close()
